@@ -1,6 +1,7 @@
 import {sendMailToUser, sendMailToRecoveryPassword} from "../config/nodemailer.js"
 import {generarJWT} from "../helpers/crearJWT.js"
 import Veterinario from "../models/Veterinario.js"
+import mongoose from 'mongoose'
 
 const registro = async (req,res) => {
   
@@ -96,13 +97,13 @@ const perfilUsuario = (req, res) => {
 }
 
 const cambiarContrasenia = async(req, res) => {
-  const {antiguopassword, password, confirmpassword} = req.body
-  const {id} = req.params
-
+  const {antiguopassword, nuevopassword, confirmpassword} = req.body
+  const {_id} = req.veterinarioBDD
+  console.log(_id)
   if (Object.values(req.body).includes("")) return res.status(400).json({msg:"Lo sentimos debes llenar todos los campos"})
-  if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({msg:"Id no encontrado"})
+  if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).json({msg:"Id no encontrado"})
   if (password != confirmpassword) return res.status(400).json({msg:"Lo sentimos, los nuevos passwords no coinciden"})
-  const veterinarioBDD = await Veterinario.findOne({id})
+  const veterinarioBDD = await Veterinario.findOne({_id})
   
   const validarPassword = veterinarioBDD.matchPassword(antiguopassword)
   if(!validarPassword) return res.status({msg:"Contaseña actual incorrecta"})
