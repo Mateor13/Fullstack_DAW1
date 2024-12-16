@@ -20,28 +20,42 @@ const registrarPaciente = async (req, res) => {
     res.status(200).json({msg:"Registro existoso del paciente"})
 }
 
-const listarPaciente = (req, res) => {
+const listarPaciente = async (req, res) => {
+    //Paso 1 -Tomar datos del request
+    //Paso 2 - Validar datos
+    //paso 3 - Interactuar BDD  
+    //const pacientes = await Paciente.find({estado:true}).where('veterinario').equals(req.veterinarioBDD).select('-salida -createdAt -updatedAt -__v')
+    const pacientes = await Paciente.find({estado:true}).populate('veterinario',"nombre apellido").select("-__v -estado -password").where('veterinario').equals(req.veterinarioBDD)
+    if (pacientes.length === 0) return res.status(400).json({msg:"No se han registrado pacientes todavía"})
+    res.status(200).json(pacientes)
+}
+
+const detallePaciente = (req, res) => {
+    //Paso 1 -Tomar datos del request
+    //Paso 2 - Validar datos
+    //paso 3 - Interactuar BDD   
+}
+const actualizarPaciente = (req, res) => {
     //Paso 1 -Tomar datos del request
     //Paso 2 - Validar datos
     //paso 3 - Interactuar BDD  
 }
-
-const detallePaciente = (req, res) => {
-    res.send('Detalle de Paciente')  
-}
-const actualizarPaciente = (req, res) => {
-    res.send('Paciente actualizado')  
-}
 const eliminarPaciente = (req, res) => {
-    res.send('Paciente eliminado')  
+    //Paso 1 -Tomar datos del request
+    //Paso 2 - Validar datos
+    //paso 3 - Interactuar BDD   
 }
 
 const loginPaciente = (req, res) => {
-    res.send('Dueño inicio sesión con éxito')  
+    //Paso 1 -Tomar datos del request
+    //Paso 2 - Validar datos
+    //paso 3 - Interactuar BDD   
 }
 
 const perfilPaciente = (req, res) => {
-    res.send('Dueño puede ver su perfil')  
+    //Paso 1 -Tomar datos del request
+    //Paso 2 - Validar datos
+    //paso 3 - Interactuar BDD   
 }
 export {
     registrarPaciente,
